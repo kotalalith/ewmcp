@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
     await user.save();
 
-    const resetUrl = `http://localhost:3000/reset-password?token=${resetTokenHash}`;
+    const resetUrl = `https://ewmcp.vercel.app/reset-password?token=${resetTokenHash}`;
 
     const transporter = nodemailer.createTransport({
       service: "gmail",

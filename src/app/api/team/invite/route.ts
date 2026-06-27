@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       },
     });
 
-    const inviteLink = `http://localhost:3000/register?inviteToken=demo123&email=${encodeURIComponent(email)}&role=${encodeURIComponent(assignedRole)}`;
+    const inviteLink = `https://ewmcp.vercel.app/register?inviteToken=demo123&email=${encodeURIComponent(email)}&role=${encodeURIComponent(assignedRole)}`;
 
     const mailOptions = {
       from: `"EWMCP System" <noreply@ewmcp.com>`,
