@@ -6,6 +6,21 @@ export interface IUser extends Document {
   password?: string;
   role: 'Administrator' | 'Manager' | 'Team Lead' | 'Employee' | 'Client';
   status: 'Active' | 'Inactive';
+  // Extended enterprise fields
+  department?: string;
+  designation?: string;
+  phone?: string;
+  avatar?: string;
+  employeeId?: string;
+  joiningDate?: Date;
+  salary?: number;
+  reportingTo?: string; // email of manager
+  skills?: string[];
+  bio?: string;
+  // Leave balance
+  annualLeaveBalance?: number;
+  sickLeaveBalance?: number;
+  // Password reset
   resetPasswordToken?: string;
   resetPasswordExpires?: Date;
 }
@@ -13,7 +28,7 @@ export interface IUser extends Document {
 const UserSchema: Schema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String }, // Optional for OAuth or Mock login
+  password: { type: String },
   role: { 
     type: String, 
     required: true, 
@@ -25,6 +40,20 @@ const UserSchema: Schema = new Schema({
     enum: ['Active', 'Inactive'],
     default: 'Active'
   },
+  // Enterprise extensions
+  department: { type: String },
+  designation: { type: String },
+  phone: { type: String },
+  avatar: { type: String },
+  employeeId: { type: String },
+  joiningDate: { type: Date },
+  salary: { type: Number },
+  reportingTo: { type: String },
+  skills: [{ type: String }],
+  bio: { type: String },
+  annualLeaveBalance: { type: Number, default: 21 },
+  sickLeaveBalance: { type: Number, default: 10 },
+  // Password reset
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
 }, { timestamps: true });

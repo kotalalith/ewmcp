@@ -56,16 +56,22 @@ export default function ReportsPage() {
     issues: activeIssues
   };
 
-  // Replace the mock chart data with empty/zero data if we want to remove mock data completely
-  const currentData = [0, 0, 0, 0, 0, 0, 0];
+  // Generate real data based on actual task status counts
+  const notStarted = tasks.filter(t => t.status === "Not Started").length;
+  const inProgress = tasks.filter(t => t.status === "In Progress").length;
+  const inReview = tasks.filter(t => t.status === "Review").length;
+  const completed = completedTasks;
+
+  // Render proportional height bars (percentage of maximum value)
+  const statusCounts = [notStarted, inProgress, inReview, completed, projects.length, 0, 0];
+  const maxVal = Math.max(...statusCounts, 1);
+  const currentData = statusCounts.map(count => (count / maxVal) * 100);
 
   const handleDownloadCSV = () => {
-    // Generate a simple CSV string from the metrics
     const headers = "Metric,Value\n";
-    const rows = `Total Projects,${currentStats.projects}\nTask Completion,${currentStats.completion}%\nActive Tasks,${currentStats.issues}`;
+    const rows = `Total Projects,${currentStats.projects}\nTask Completion,${currentStats.completion}%\nActive Tasks,${currentStats.issues}\nNot Started Tasks,${notStarted}\nIn Progress Tasks,${inProgress}\nIn Review Tasks,${inReview}\nCompleted Tasks,${completed}`;
     const csvContent = headers + rows;
     
-    // Trigger download
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -122,7 +128,7 @@ export default function ReportsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1 min-h-0">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }} className="glass-panel p-6 rounded-2xl border border-[var(--border)] flex flex-col">
-          <h3 className="text-lg font-bold font-outfit text-foreground mb-6 flex items-center gap-2"><Activity className="w-5 h-5 text-brand-500" /> Performance Velocity</h3>
+          <h3 className="text-lg font-bold font-outfit text-foreground mb-6 flex items-center gap-2"><Activity className="w-5 h-5 text-brand-500" /> Velocity Breakdown</h3>
           <div className="flex-1 relative flex items-end justify-between pt-10 pb-4 px-2 gap-2">
             {currentData.map((h, i) => (
               <div key={i} className="w-full h-full bg-[var(--surface-border)] rounded-t-lg relative group">
@@ -132,7 +138,9 @@ export default function ReportsPage() {
                   transition={{ duration: 0.5, type: "spring" }}
                   className="absolute bottom-0 w-full bg-brand-500 rounded-t-lg group-hover:bg-brand-400" 
                 />
-                <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-foreground/40 font-bold uppercase">M{i+1}</span>
+                <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[9px] text-foreground/40 font-bold uppercase tracking-wider">
+                  {i === 0 ? "Todo" : i === 1 ? "Active" : i === 2 ? "Review" : i === 3 ? "Done" : i === 4 ? "Proj" : `M${i+1}`}
+                </span>
               </div>
             ))}
           </div>
@@ -150,7 +158,7 @@ export default function ReportsPage() {
               </svg>
             </div>
             <div className="ml-8 space-y-3">
-              <div className="flex items-center gap-2 text-sm text-foreground/50">Data sync in progress...</div>
+              <div className="flex items-center gap-2 text-sm text-foreground/50">Data synchronized successfully</div>
             </div>
           </div>
         </motion.div>

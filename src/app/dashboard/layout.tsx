@@ -9,7 +9,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   LayoutDashboard, FolderKanban, CheckSquare, Users, 
   FileText, MessageSquare, Calendar, LogOut, ShieldCheck,
-  BarChart3, Settings as SettingsIcon, Search, Sparkles, X, Send, Bell, ChevronUp
+  BarChart3, Settings as SettingsIcon, Search, Sparkles, X, Send, Bell, ChevronUp,
+  Laptop, Video
 } from "lucide-react";
 
 const allNavigation = [
@@ -17,10 +18,23 @@ const allNavigation = [
   { name: "Projects", href: "/dashboard/projects", icon: FolderKanban, roles: ["Administrator", "Manager", "Team Lead"] },
   { name: "Tasks", href: "/dashboard/tasks", icon: CheckSquare, roles: ["Administrator", "Manager", "Team Lead", "Employee"] },
   { name: "Team", href: "/dashboard/team", icon: Users, roles: ["Administrator", "Manager"] },
+  { name: "Calendar", href: "/dashboard/calendar", icon: Calendar, roles: ["Administrator", "Manager", "Team Lead", "Employee"] },
+  { name: "Roadmap", href: "/dashboard/roadmap", icon: FolderKanban, roles: ["Administrator", "Manager", "Team Lead", "Employee"] },
+  { name: "Collaboration", href: "/dashboard/collaboration", icon: Video, roles: ["Administrator", "Manager", "Team Lead", "Employee"] },
+  { name: "Assets", href: "/dashboard/assets", icon: Laptop, roles: ["Administrator", "Manager", "Team Lead", "Employee"] },
+  { name: "Leave", href: "/dashboard/leave", icon: Calendar, roles: ["Administrator", "Manager", "Team Lead", "Employee"] },
+  { name: "Attendance", href: "/dashboard/attendance", icon: LayoutDashboard, roles: ["Administrator", "Manager", "Team Lead", "Employee"] },
+  { name: "Timesheet", href: "/dashboard/timesheet", icon: CheckSquare, roles: ["Administrator", "Manager", "Team Lead", "Employee"] },
+  { name: "Approvals", href: "/dashboard/approvals", icon: ShieldCheck, roles: ["Administrator", "Manager"] },
+  { name: "HR Module", href: "/dashboard/hr", icon: Users, roles: ["Administrator", "Manager"] },
+  { name: "Announcements", href: "/dashboard/announcements", icon: MessageSquare, roles: ["Administrator", "Manager", "Team Lead", "Employee", "Client"] },
+  { name: "Help Desk", href: "/dashboard/helpdesk", icon: CheckSquare, roles: ["Administrator", "Manager", "Team Lead", "Employee", "Client"] },
+  { name: "Knowledge Base", href: "/dashboard/knowledge", icon: FileText, roles: ["Administrator", "Manager", "Team Lead", "Employee", "Client"] },
   { name: "Documents", href: "/dashboard/documents", icon: FileText, roles: ["Administrator", "Manager", "Team Lead", "Employee", "Client"] },
   { name: "Messages", href: "/dashboard/messages", icon: MessageSquare, roles: ["Administrator", "Manager", "Team Lead", "Employee", "Client"] },
   { name: "Meetings", href: "/dashboard/meetings", icon: Calendar, roles: ["Administrator", "Manager", "Team Lead", "Employee"] },
   { name: "Reports", href: "/dashboard/reports", icon: BarChart3, roles: ["Administrator", "Manager"] },
+  { name: "Admin Panel", href: "/dashboard/admin", icon: ShieldCheck, roles: ["Administrator"] },
   { name: "Settings", href: "/dashboard/settings", icon: SettingsIcon, roles: ["Administrator", "Manager", "Team Lead", "Employee", "Client"] },
 ];
 

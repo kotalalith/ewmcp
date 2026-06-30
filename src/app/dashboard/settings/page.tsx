@@ -3,12 +3,34 @@
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Settings as SettingsIcon, User, Bell, Lock, Palette, CheckCircle2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function SettingsPage() {
   const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState("Account");
   const [toastMessage, setToastMessage] = useState("");
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    setTheme(savedTheme);
+    if (savedTheme === "light") {
+      document.documentElement.classList.add("light");
+    } else {
+      document.documentElement.classList.remove("light");
+    }
+  }, []);
+
+  const changeTheme = (newTheme: string) => {
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    if (newTheme === "light") {
+      document.documentElement.classList.add("light");
+    } else {
+      document.documentElement.classList.remove("light");
+    }
+    showToast(`${newTheme === "light" ? "Light" : "Dark"} Mode applied!`);
+  };
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -140,14 +162,30 @@ export default function SettingsPage() {
             <div className="space-y-6">
               <p className="text-sm text-foreground/60">Choose your preferred theme. (Dark mode is set as the default premium experience).</p>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-2xl">
-                <div className="border-2 border-brand-500 bg-[var(--surface)] rounded-2xl p-4 cursor-pointer relative">
-                  <div className="absolute top-2 right-2 w-4 h-4 bg-brand-500 rounded-full flex items-center justify-center"><div className="w-1.5 h-1.5 bg-white rounded-full"/></div>
-                  <div className="w-full h-20 bg-[var(--background)] rounded-lg mb-2 border border-[var(--border)]" />
-                  <p className="text-sm font-semibold text-center">Dark Mode</p>
+                <div 
+                  onClick={() => changeTheme("dark")}
+                  className={`border-2 rounded-2xl p-4 cursor-pointer relative transition-all ${theme === "dark" ? "border-brand-500 bg-[var(--surface)]" : "border-[var(--border)] bg-[var(--surface)] hover:border-brand-500/50"}`}
+                >
+                  {theme === "dark" && (
+                    <div className="absolute top-2 right-2 w-4 h-4 bg-brand-500 rounded-full flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 bg-white rounded-full"/>
+                    </div>
+                  )}
+                  <div className="w-full h-20 bg-[#0f172a] rounded-lg mb-2 border border-slate-700" />
+                  <p className="text-sm font-semibold text-center text-white">Dark Mode</p>
                 </div>
-                <div className="border-2 border-[var(--border)] hover:border-brand-500/50 bg-[#f8fafc] rounded-2xl p-4 cursor-not-allowed opacity-50 relative">
-                  <div className="w-full h-20 bg-white rounded-lg mb-2 border border-slate-200" />
-                  <p className="text-sm font-semibold text-center text-slate-900">Light Mode (Pro)</p>
+                
+                <div 
+                  onClick={() => changeTheme("light")}
+                  className={`border-2 rounded-2xl p-4 cursor-pointer relative transition-all ${theme === "light" ? "border-brand-500 bg-white" : "border-[var(--border)] bg-[#f8fafc] hover:border-brand-500/50"}`}
+                >
+                  {theme === "light" && (
+                    <div className="absolute top-2 right-2 w-4 h-4 bg-brand-500 rounded-full flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 bg-white rounded-full"/>
+                    </div>
+                  )}
+                  <div className="w-full h-20 bg-slate-100 rounded-lg mb-2 border border-slate-300" />
+                  <p className="text-sm font-semibold text-center text-slate-900">Light Mode</p>
                 </div>
               </div>
             </div>
